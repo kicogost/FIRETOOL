@@ -127,9 +127,9 @@ export function OnboardingWizard() {
         )}
 
         {step === 4 && (
-          <Question title="¿Cuál es tu patrimonio actual?" hint="Rellena lo que tengas en cada sitio. Lo dejaremos en blanco si es cero.">
+          <Question title="¿Cuál es tu patrimonio actual?" hint="Cuánto tienes ahora mismo en cada sitio (el saldo, no lo que gastas). Déjalo en blanco si es cero.">
             <div className="space-y-3">
-              <MoneyRow label="Efectivo y cuentas" value={d.cash} onChange={(v) => set({ cash: v })} />
+              <MoneyRow label="Ahorros (efectivo y cuentas)" value={d.cash} onChange={(v) => set({ cash: v })} />
               <MoneyRow label="Inversiones (broker, fondos)" value={d.investments} onChange={(v) => set({ investments: v })} />
               <MoneyRow label="Plan de pensiones" value={d.pension} onChange={(v) => set({ pension: v })} />
               <MoneyRow label="Cripto" value={d.crypto} onChange={(v) => set({ crypto: v })} />
