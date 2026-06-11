@@ -16,9 +16,9 @@ export function StatTile({
 }) {
   return (
     <Card className={className}>
-      <p className="text-xs font-bold uppercase tracking-wide text-ink/45">{label}</p>
+      <p className="text-xs font-bold uppercase tracking-wide text-ink/55">{label}</p>
       <p className={`mt-1.5 text-lg font-bold tabular-nums ${valueClassName}`}>{value}</p>
-      {sub && <p className="mt-0.5 text-xs text-ink/40">{sub}</p>}
+      {sub && <p className="mt-0.5 text-xs text-ink/50">{sub}</p>}
     </Card>
   );
 }

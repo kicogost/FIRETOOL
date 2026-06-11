@@ -91,7 +91,8 @@ export const snapshots = pgTable("snapshots", {
 
 export const categories = pgTable("categories", {
   id: uuid("id").primaryKey().defaultRandom(),
-  name: text("name").notNull(),
+  // Unique so additive seeding can't create duplicates under concurrent boots.
+  name: text("name").notNull().unique(),
   kind: categoryKind("kind").notNull(),
   isSinkingFund: boolean("is_sinking_fund").notNull().default(false),
 });

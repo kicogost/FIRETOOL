@@ -63,13 +63,16 @@ export async function seedCategories(db: Db): Promise<void> {
   const have = new Set(existing.map((c) => c.name));
   const missing = CATEGORIES.filter((c) => !have.has(c.name));
   if (missing.length === 0) return;
-  await db.insert(schema.categories).values(
-    missing.map((c) => ({
-      name: c.name,
-      kind: c.kind,
-      isSinkingFund: c.isSinkingFund ?? false,
-    })),
-  );
+  await db
+    .insert(schema.categories)
+    .values(
+      missing.map((c) => ({
+        name: c.name,
+        kind: c.kind,
+        isSinkingFund: c.isSinkingFund ?? false,
+      })),
+    )
+    .onConflictDoNothing(); // unique(name) guards concurrent cold-starts
 }
 
 /**
@@ -148,8 +151,8 @@ export async function seedDemo(db: Db): Promise<void> {
     }
   }
 
-  const cash = await db.select().from(schema.accounts).limit(1);
-  const cashId = cash[0].id;
+  const allAccounts = await db.select().from(schema.accounts);
+  const cashId = (allAccounts.find((a) => a.type === "cash") ?? allAccounts[0]).id;
   await db.insert(schema.transactions).values(
     txns.map((t) => ({
       profileId: SINGLE_PROFILE_ID,

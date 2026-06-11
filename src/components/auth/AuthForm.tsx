@@ -60,7 +60,7 @@ export function AuthForm() {
           />
         </label>
 
-        {state.error && <p className="text-sm text-red-600">{state.error}</p>}
+        {state.error && <p className="text-sm text-danger">{state.error}</p>}
         {state.message && <p className="text-sm text-success">{state.message}</p>}
 
         <SubmitButton label={mode === "signin" ? "Entrar" : "Crear cuenta"} />

@@ -94,7 +94,7 @@ export function AddAccountForm() {
         <span className="text-sm text-ink/60">Cuenta de inversión (cuenta para FIRE)</span>
       </label>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="flex gap-2">
         <button

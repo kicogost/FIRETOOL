@@ -54,7 +54,7 @@ export function NetWorthChart({ series }: { series: NetWorthPoint[] }) {
             <XAxis
               dataKey="month"
               tickFormatter={formatMonth}
-              tick={{ fontSize: 11, fill: "#9ca3af" }}
+              tick={{ fontSize: 11, fill: "rgba(30,41,56,0.45)" }}
               tickLine={false}
               axisLine={false}
               minTickGap={20}
@@ -63,7 +63,14 @@ export function NetWorthChart({ series }: { series: NetWorthPoint[] }) {
             <Tooltip
               formatter={(v) => [eur(Number(v)), "Patrimonio"]}
               labelFormatter={(l) => formatMonth(String(l))}
-              contentStyle={{ borderRadius: 12, border: "1px solid #e5e7eb", fontSize: 12 }}
+              contentStyle={{
+                borderRadius: 14,
+                border: "none",
+                background: "#E7E5E4",
+                boxShadow: "6px 6px 12px #c7c5c4, -6px -6px 12px #ffffff",
+                fontSize: 12,
+                color: "#1E2938",
+              }}
             />
             <Line
               type="monotone"

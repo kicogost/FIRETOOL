@@ -52,7 +52,7 @@ export function BottomNav() {
   const active = activePillar(pathname);
 
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-black/5 bg-surface/95 backdrop-blur">
+    <nav className="fixed inset-x-0 bottom-0 z-30 bg-surface/95 shadow-[0_-4px_16px_rgba(199,197,196,0.6)] backdrop-blur">
       <div className="mx-auto flex max-w-md items-stretch justify-around px-4 py-2">
         {ITEMS.map((it) => {
           const on = active === it.key;
@@ -62,7 +62,7 @@ export function BottomNav() {
               href={it.href}
               aria-current={on ? "page" : undefined}
               className={`flex flex-1 flex-col items-center gap-1 rounded-xl py-1.5 text-[11px] font-bold transition ${
-                on ? "text-teal" : "text-ink/40"
+                on ? "text-teal" : "text-ink/55"
               }`}
             >
               <span className={on ? "rounded-xl bg-surface px-3 py-1 shadow-neu-inset" : "px-3 py-1"}>

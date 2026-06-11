@@ -101,8 +101,8 @@ export function AddTransaction({
                     type="button"
                     key={t}
                     onClick={() => setType(t)}
-                    className={`rounded-xl px-2 py-2 text-xs font-medium ${
-                      type === t ? "bg-teal text-white" : "bg-surface text-ink/60"
+                    className={`rounded-xl px-2 py-2 text-xs font-bold transition ${
+                      type === t ? "bg-teal text-white shadow-neu-sm" : "bg-surface text-ink/60 shadow-neu-sm"
                     }`}
                   >
                     {TX_TYPE_LABELS[t]}
@@ -119,7 +119,7 @@ export function AddTransaction({
                   min="0"
                   required
                   autoFocus
-                  className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2 text-lg"
+                  className="neu-input mt-1 text-lg"
                 />
               </label>
 
@@ -128,7 +128,7 @@ export function AddTransaction({
                 <select
                   name="accountId"
                   required
-                  className="mt-1 w-full rounded-xl shadow-neu-inset bg-surface px-3 py-2"
+                  className="neu-input mt-1"
                 >
                   {accounts.map((a) => (
                     <option key={a.id} value={a.id}>
@@ -143,7 +143,7 @@ export function AddTransaction({
                   <span className="text-sm text-ink/60">Categoría</span>
                   <select
                     name="category"
-                    className="mt-1 w-full rounded-xl shadow-neu-inset bg-surface px-3 py-2"
+                    className="neu-input mt-1"
                   >
                     <option value="">Sin categoría</option>
                     {relevantCategories.map((c) => (
@@ -161,11 +161,11 @@ export function AddTransaction({
                   name="date"
                   type="date"
                   defaultValue={today}
-                  className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2"
+                  className="neu-input mt-1"
                 />
               </label>
 
-              {error && <p className="text-sm text-red-600">{error}</p>}
+              {error && <p className="text-sm text-danger">{error}</p>}
 
               <button
                 type="submit"
@@ -175,7 +175,7 @@ export function AddTransaction({
                 {pending ? "Guardando…" : "Guardar movimiento"}
               </button>
               {accounts.length === 0 && (
-                <p className="text-center text-xs text-amber-600">
+                <p className="text-center text-xs text-warn">
                   Primero crea una cuenta en la sección Cuentas.
                 </p>
               )}

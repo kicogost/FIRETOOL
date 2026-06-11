@@ -220,7 +220,7 @@ export function OnboardingWizard() {
                 { value: "loud", label: "¡Celebrarlo todo!", hint: "Confeti y fanfarria" },
               ]}
             />
-            {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
+            {error && <p className="mt-3 text-sm text-danger">{error}</p>}
             <button
               onClick={submit}
               disabled={pending || !d.rewardStyle}

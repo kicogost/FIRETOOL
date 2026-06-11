@@ -57,7 +57,7 @@ export function ImportCsv() {
             {preview.errors.length > 0 && `, ${preview.errors.length} con error`}
           </p>
           {preview.errors.length > 0 && (
-            <ul className="mt-2 list-inside list-disc text-xs text-red-600">
+            <ul className="mt-2 list-inside list-disc text-xs text-danger">
               {preview.errors.slice(0, 5).map((e, i) => (
                 <li key={i}>Línea {e.line}: {e.message}</li>
               ))}
@@ -81,7 +81,7 @@ export function ImportCsv() {
             ✓ {result.imported} movimiento(s) importado(s).
           </p>
           {result.unknownAccounts.length > 0 && (
-            <p className="mt-1 text-amber-700">
+            <p className="mt-1 text-warn">
               Cuentas no encontradas (omitidas): {result.unknownAccounts.join(", ")}. Créalas en
               Cuentas y vuelve a importar.
             </p>
