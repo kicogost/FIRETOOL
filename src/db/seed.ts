@@ -51,7 +51,24 @@ const ACCOUNTS: {
 
 const MONTHS = 12;
 
-export async function seedIfEmpty(db: Db): Promise<void> {
+/** Default categories are global reference data — seeded for every database. */
+export async function seedCategories(db: Db): Promise<void> {
+  const existing = await db.select().from(schema.categories).limit(1);
+  if (existing.length > 0) return;
+  await db.insert(schema.categories).values(
+    CATEGORIES.map((c) => ({
+      name: c.name,
+      kind: c.kind,
+      isSinkingFund: c.isSinkingFund ?? false,
+    })),
+  );
+}
+
+/**
+ * Demo profile + accounts + history — only for single-user local mode. With
+ * auth on, each user builds their own data through onboarding instead.
+ */
+export async function seedDemo(db: Db): Promise<void> {
   const existing = await db.select().from(schema.profiles).limit(1);
   if (existing.length > 0) return;
 
@@ -67,13 +84,7 @@ export async function seedIfEmpty(db: Db): Promise<void> {
     rewardStyle: "loud",
   });
 
-  await db.insert(schema.categories).values(
-    CATEGORIES.map((c) => ({
-      name: c.name,
-      kind: c.kind,
-      isSinkingFund: c.isSinkingFund ?? false,
-    })),
-  );
+  await seedCategories(db);
 
   for (const a of ACCOUNTS) {
     const [account] = await db

@@ -9,7 +9,7 @@
  */
 import { drizzle as drizzlePglite } from "drizzle-orm/pglite";
 import * as schema from "./schema";
-import { seedIfEmpty } from "./seed";
+import { seedCategories, seedDemo } from "./seed";
 
 export type Db = ReturnType<typeof drizzlePglite<typeof schema>>;
 
@@ -37,7 +37,8 @@ async function initSupabase(url: string): Promise<Db> {
   const db = drizzle(sql, { schema }) as unknown as Db;
 
   await migrate(db as never, { migrationsFolder: "./drizzle" });
-  if (!AUTH_ENABLED) await seedIfEmpty(db);
+  await seedCategories(db); // global reference data, always
+  if (!AUTH_ENABLED) await seedDemo(db);
   return db;
 }
 
@@ -48,7 +49,8 @@ async function initPglite(): Promise<Db> {
   const pg = new PGlite(DATA_DIR);
   const db = drizzlePglite(pg, { schema });
   await migrate(db, { migrationsFolder: "./drizzle" });
-  if (!AUTH_ENABLED) await seedIfEmpty(db);
+  await seedCategories(db); // global reference data, always
+  if (!AUTH_ENABLED) await seedDemo(db);
   return db;
 }
 
