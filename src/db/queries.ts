@@ -23,6 +23,7 @@ import {
 } from "@/lib/fire";
 import { computeStreak, describeMilestone, type MilestoneDef } from "@/lib/gamification";
 import { pickCoachingModule, type CoachingSlug } from "@/lib/coaching";
+import { analyzeSpending, type SpendingAnalysis } from "@/lib/spending";
 import { desc } from "drizzle-orm";
 
 const MS_PER_DAY = 1000 * 60 * 60 * 24;
@@ -312,4 +313,24 @@ export async function getDashboardData(): Promise<DashboardData | null> {
     latestMilestone,
     coachingSlug,
   };
+}
+
+/** Spending analysis (Gastos pillar) — rule-based insights from transactions. */
+export async function getSpendingAnalysis(): Promise<SpendingAnalysis> {
+  const db = await getDb();
+  const profileId = await currentProfileId();
+  const txns = await db
+    .select()
+    .from(schema.transactions)
+    .where(eq(schema.transactions.profileId, profileId));
+  return analyzeSpending(
+    txns.map((t) => ({
+      type: t.type as "income" | "expense" | "contribution" | "withdrawal",
+      amount: num(t.amount),
+      category: t.category,
+      note: t.note,
+      date: t.date,
+    })),
+    new Date(),
+  );
 }

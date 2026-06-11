@@ -1,17 +1,18 @@
-import { getDashboardData } from "@/db/queries";
+import { getSpendingAnalysis, getProfile } from "@/db/queries";
 import { getAccountsList, getCategories } from "@/db/mutations";
 import { Nav } from "@/components/ui/Nav";
 import { BottomNav } from "@/components/ui/BottomNav";
 import { Card } from "@/components/ui/Card";
-import { SpendBreakdown } from "@/components/dashboard/SpendBreakdown";
+import { SpendingInsights } from "@/components/gastos/SpendingInsights";
+import { CategoryBreakdown } from "@/components/gastos/CategoryBreakdown";
 import { AddTransaction } from "@/components/transactions/AddTransaction";
 import { eur, pct } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
 export default async function GastosPage() {
-  const data = await getDashboardData();
-  if (!data) {
+  const profile = await getProfile();
+  if (!profile) {
     return (
       <main className="mx-auto max-w-md px-5 pb-24 pt-2">
         <Nav />
@@ -21,38 +22,36 @@ export default async function GastosPage() {
     );
   }
 
-  const [accounts, categories] = await Promise.all([getAccountsList(), getCategories()]);
+  const [analysis, accounts, categories] = await Promise.all([
+    getSpendingAnalysis(),
+    getAccountsList(),
+    getCategories(),
+  ]);
 
   return (
     <main className="mx-auto max-w-md px-4 pb-28 pt-2">
       <Nav />
       <h1 className="mt-2 px-1 text-xl font-bold">Tus gastos</h1>
-      <p className="px-1 text-sm text-ink/50">Analiza en qué se va tu dinero y dónde recortar.</p>
+      <p className="px-1 text-sm text-ink/50">En qué se va tu dinero, y dónde puedes recortar.</p>
 
       <div className="mt-4 grid grid-cols-2 gap-4">
         <Card className="col-span-1">
           <p className="text-xs font-bold uppercase tracking-wide text-ink/45">Gasto este mes</p>
-          <p className="mt-1 text-2xl font-bold tabular-nums">{eur(data.thisMonth.expenses)}</p>
+          <p className="mt-1 text-2xl font-bold tabular-nums">{eur(analysis.totalExpenses)}</p>
         </Card>
         <Card className="col-span-1">
           <p className="text-xs font-bold uppercase tracking-wide text-ink/45">Tasa de ahorro</p>
           <p
             className={`mt-1 text-2xl font-bold tabular-nums ${
-              data.thisMonth.savingsRate < 0 ? "text-danger" : "text-success"
+              analysis.savingsRate < 0 ? "text-danger" : "text-success"
             }`}
           >
-            {pct(data.thisMonth.savingsRate)}
+            {pct(analysis.savingsRate)}
           </p>
         </Card>
 
-        <SpendBreakdown data={data} />
-
-        <Card className="col-span-2" variant="inset">
-          <p className="text-sm text-ink/55">
-            Pronto: detección de suscripciones, alertas de comisiones y avisos cuando una categoría
-            se dispara — con consejos para recortar sin agobios.
-          </p>
-        </Card>
+        <SpendingInsights insights={analysis.insights} />
+        <CategoryBreakdown items={analysis.byCategory} />
       </div>
 
       <AddTransaction

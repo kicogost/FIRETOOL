@@ -28,10 +28,13 @@ const CATEGORIES: { name: string; kind: "income" | "expense"; isSinkingFund?: bo
   { name: "Otros ingresos", kind: "income" },
   { name: "Vivienda", kind: "expense" },
   { name: "Alimentación", kind: "expense" },
+  { name: "Restaurantes", kind: "expense" },
   { name: "Transporte", kind: "expense" },
   { name: "Ocio", kind: "expense" },
   { name: "Suscripciones", kind: "expense" },
+  { name: "Compras", kind: "expense" },
   { name: "Salud", kind: "expense" },
+  { name: "Comisiones", kind: "expense" },
   { name: "Vacaciones", kind: "expense", isSinkingFund: true },
   { name: "Otros gastos", kind: "expense" },
 ];
@@ -51,12 +54,17 @@ const ACCOUNTS: {
 
 const MONTHS = 12;
 
-/** Default categories are global reference data — seeded for every database. */
+/**
+ * Default categories are global reference data. Additive: inserts any default
+ * category missing by name, so existing databases pick up new ones over time.
+ */
 export async function seedCategories(db: Db): Promise<void> {
-  const existing = await db.select().from(schema.categories).limit(1);
-  if (existing.length > 0) return;
+  const existing = await db.select({ name: schema.categories.name }).from(schema.categories);
+  const have = new Set(existing.map((c) => c.name));
+  const missing = CATEGORIES.filter((c) => !have.has(c.name));
+  if (missing.length === 0) return;
   await db.insert(schema.categories).values(
-    CATEGORIES.map((c) => ({
+    missing.map((c) => ({
       name: c.name,
       kind: c.kind,
       isSinkingFund: c.isSinkingFund ?? false,
@@ -112,6 +120,7 @@ export async function seedDemo(db: Db): Promise<void> {
   }
 
   // Recent transactions: last 3 months of income, expenses, contributions.
+  // Varied categories so the spending analysis (Gastos) has real signal.
   const txns = [];
   for (let i = 2; i >= 0; i--) {
     const m = monthStart(i);
@@ -119,12 +128,24 @@ export async function seedDemo(db: Db): Promise<void> {
     txns.push(
       { type: "income" as const, amount: "3200", category: "Nómina", date: d(1) },
       { type: "expense" as const, amount: "850", category: "Vivienda", date: d(3) },
-      { type: "expense" as const, amount: "420", category: "Alimentación", date: d(8) },
+      { type: "expense" as const, amount: "260", category: "Alimentación", date: d(8) },
       { type: "expense" as const, amount: "180", category: "Transporte", date: d(10) },
-      { type: "expense" as const, amount: "150", category: "Ocio", date: d(15) },
       { type: "expense" as const, amount: "60", category: "Suscripciones", date: d(16) },
+      { type: "expense" as const, amount: "6", category: "Comisiones", date: d(2) },
       { type: "contribution" as const, amount: "600", category: null, date: d(5) },
     );
+    // This month: more restaurants (eating-out flag) + an Ocio spike + small "hormiga" buys.
+    const rest = i === 0 ? "320" : "120";
+    const ocio = i === 0 ? "260" : "90";
+    txns.push(
+      { type: "expense" as const, amount: rest, category: "Restaurantes", date: d(12) },
+      { type: "expense" as const, amount: ocio, category: "Ocio", date: d(15) },
+    );
+    if (i === 0) {
+      for (const day of [18, 19, 20, 21, 22]) {
+        txns.push({ type: "expense" as const, amount: "3.5", category: "Otros gastos", date: d(day) });
+      }
+    }
   }
 
   const cash = await db.select().from(schema.accounts).limit(1);
