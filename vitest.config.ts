@@ -10,6 +10,8 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["src/**/*.test.ts"],
+    // Tests always use in-memory PGlite — never a real DATABASE_URL (Supabase).
+    env: { DATABASE_URL: "", PGLITE_DIR: "memory://" },
     coverage: {
       provider: "v8",
       include: ["src/lib/fire.ts"],
