@@ -15,6 +15,12 @@ export type Db = ReturnType<typeof drizzlePglite<typeof schema>>;
 
 const DATA_DIR = process.env.PGLITE_DIR ?? "./.pglite";
 
+// Demo seed runs only in single-user mode. With Supabase Auth configured, each
+// user creates their own data through onboarding — no shared demo profile.
+const AUTH_ENABLED = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+);
+
 declare global {
   // eslint-disable-next-line no-var
   var __fireDbPromise: Promise<Db> | undefined;
@@ -31,7 +37,7 @@ async function initSupabase(url: string): Promise<Db> {
   const db = drizzle(sql, { schema }) as unknown as Db;
 
   await migrate(db as never, { migrationsFolder: "./drizzle" });
-  await seedIfEmpty(db);
+  if (!AUTH_ENABLED) await seedIfEmpty(db);
   return db;
 }
 
@@ -42,7 +48,7 @@ async function initPglite(): Promise<Db> {
   const pg = new PGlite(DATA_DIR);
   const db = drizzlePglite(pg, { schema });
   await migrate(db, { migrationsFolder: "./drizzle" });
-  await seedIfEmpty(db);
+  if (!AUTH_ENABLED) await seedIfEmpty(db);
   return db;
 }
 

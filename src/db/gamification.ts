@@ -5,7 +5,7 @@
  */
 import { eq } from "drizzle-orm";
 import { getDb, schema } from "./index";
-import { SINGLE_PROFILE_ID } from "./constants";
+import { currentProfileId } from "./profile";
 import { getDashboardData } from "./queries";
 import {
   satisfiedMilestones,
@@ -28,6 +28,7 @@ export interface GamificationResult {
  */
 export async function evaluateAndRecord(): Promise<GamificationResult> {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const data = await getDashboardData();
   if (!data) return { newMilestones: [], streak: { current: 0, best: 0 } };
 
@@ -37,7 +38,7 @@ export async function evaluateAndRecord(): Promise<GamificationResult> {
   const txns = await db
     .select()
     .from(schema.transactions)
-    .where(eq(schema.transactions.profileId, SINGLE_PROFILE_ID));
+    .where(eq(schema.transactions.profileId, profileId));
   const contributionMonths = new Set(
     txns.filter((t) => t.type === "contribution").map((t) => monthKey(t.date)),
   );
@@ -57,7 +58,7 @@ export async function evaluateAndRecord(): Promise<GamificationResult> {
   const [existingStreak] = await db
     .select()
     .from(schema.streaks)
-    .where(eq(schema.streaks.profileId, SINGLE_PROFILE_ID))
+    .where(eq(schema.streaks.profileId, profileId))
     .limit(1);
   const lastQualifiedMonth = [...contributionMonths].sort().at(-1) ?? null;
   if (existingStreak) {
@@ -71,7 +72,7 @@ export async function evaluateAndRecord(): Promise<GamificationResult> {
       .where(eq(schema.streaks.id, existingStreak.id));
   } else {
     await db.insert(schema.streaks).values({
-      profileId: SINGLE_PROFILE_ID,
+      profileId,
       kind: "monthly_contribution",
       currentCount: streak.current,
       bestCount: streak.best,
@@ -83,14 +84,14 @@ export async function evaluateAndRecord(): Promise<GamificationResult> {
   const achieved = await db
     .select({ key: schema.milestones.key })
     .from(schema.milestones)
-    .where(eq(schema.milestones.profileId, SINGLE_PROFILE_ID));
+    .where(eq(schema.milestones.profileId, profileId));
   const achievedKeys = new Set(achieved.map((a) => a.key));
 
   const newKeys = satisfiedMilestones(state).filter((k) => !achievedKeys.has(k));
   if (newKeys.length > 0) {
     await db
       .insert(schema.milestones)
-      .values(newKeys.map((key) => ({ profileId: SINGLE_PROFILE_ID, key })));
+      .values(newKeys.map((key) => ({ profileId, key })));
   }
 
   return { newMilestones: newKeys.map(describeMilestone), streak };

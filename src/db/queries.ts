@@ -8,7 +8,7 @@
  */
 import { eq, inArray } from "drizzle-orm";
 import { getDb, schema } from "./index";
-import { SINGLE_PROFILE_ID } from "./constants";
+import { currentProfileId } from "./profile";
 import {
   fireNumber,
   progressPct,
@@ -40,10 +40,11 @@ export interface AccountWithBalance {
 
 export async function getProfile() {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const [profile] = await db
     .select()
     .from(schema.profiles)
-    .where(eq(schema.profiles.id, SINGLE_PROFILE_ID))
+    .where(eq(schema.profiles.id, profileId))
     .limit(1);
   return profile ?? null;
 }
@@ -51,10 +52,11 @@ export async function getProfile() {
 /** Accounts with their most recent snapshot balance. */
 export async function getAccountsWithBalance(): Promise<AccountWithBalance[]> {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const accounts = await db
     .select()
     .from(schema.accounts)
-    .where(eq(schema.accounts.profileId, SINGLE_PROFILE_ID));
+    .where(eq(schema.accounts.profileId, profileId));
   if (accounts.length === 0) return [];
 
   const ids = accounts.map((a) => a.id);
@@ -88,10 +90,11 @@ export interface NetWorthPoint {
 /** Monthly net-worth series from snapshots (debt subtracts), for the chart. */
 async function getNetWorthSeries(): Promise<NetWorthPoint[]> {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const accounts = await db
     .select()
     .from(schema.accounts)
-    .where(eq(schema.accounts.profileId, SINGLE_PROFILE_ID));
+    .where(eq(schema.accounts.profileId, profileId));
   if (accounts.length === 0) return [];
 
   const ids = accounts.map((a) => a.id);
@@ -151,11 +154,12 @@ export async function getDashboardData(): Promise<DashboardData | null> {
   if (!profile) return null;
 
   const db = await getDb();
+  const profileId = await currentProfileId();
   const accounts = await getAccountsWithBalance();
   const txns = await db
     .select()
     .from(schema.transactions)
-    .where(eq(schema.transactions.profileId, SINGLE_PROFILE_ID));
+    .where(eq(schema.transactions.profileId, profileId));
 
   const now = new Date();
   const curMonth = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
@@ -247,7 +251,7 @@ export async function getDashboardData(): Promise<DashboardData | null> {
   const [latest] = await db
     .select()
     .from(schema.milestones)
-    .where(eq(schema.milestones.profileId, SINGLE_PROFILE_ID))
+    .where(eq(schema.milestones.profileId, profileId))
     .orderBy(desc(schema.milestones.achievedAt))
     .limit(1);
   const latestMilestone = latest ? describeMilestone(latest.key) : null;

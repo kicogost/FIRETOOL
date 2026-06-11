@@ -3,9 +3,9 @@
  * snapshot (PRD §7: "Transactions update the current snapshot of their
  * account"), so net worth and FIRE progress move the moment something is logged.
  */
-import { eq, inArray } from "drizzle-orm";
+import { and, eq, inArray } from "drizzle-orm";
 import { getDb, schema } from "./index";
-import { SINGLE_PROFILE_ID } from "./constants";
+import { currentProfileId } from "./profile";
 import type { AccountType } from "@/lib/fire";
 
 type TxType = "income" | "expense" | "contribution" | "withdrawal";
@@ -34,16 +34,20 @@ export async function updateProfile(input: {
   rewardStyle: "quiet" | "loud";
 }): Promise<void> {
   const db = await getDb();
+  const profileId = await currentProfileId();
+  const values = {
+    name: input.name,
+    age: input.age,
+    retirementMonthlySpend: input.retirementMonthlySpend.toFixed(2),
+    fireVariant: input.fireVariant,
+    rewardStyle: input.rewardStyle,
+  };
+  // Upsert: a brand-new authenticated user has no profile row yet, so onboarding
+  // must create it (keyed to their user id) rather than update nothing.
   await db
-    .update(schema.profiles)
-    .set({
-      name: input.name,
-      age: input.age,
-      retirementMonthlySpend: input.retirementMonthlySpend.toFixed(2),
-      fireVariant: input.fireVariant,
-      rewardStyle: input.rewardStyle,
-    })
-    .where(eq(schema.profiles.id, SINGLE_PROFILE_ID));
+    .insert(schema.profiles)
+    .values({ id: profileId, ...values })
+    .onConflictDoUpdate({ target: schema.profiles.id, set: values });
 }
 
 export async function getCategories() {
@@ -53,10 +57,11 @@ export async function getCategories() {
 
 export async function getAccountsList() {
   const db = await getDb();
+  const profileId = await currentProfileId();
   return db
     .select()
     .from(schema.accounts)
-    .where(eq(schema.accounts.profileId, SINGLE_PROFILE_ID))
+    .where(eq(schema.accounts.profileId, profileId))
     .orderBy(schema.accounts.name);
 }
 
@@ -72,10 +77,11 @@ export async function addTransaction(
   opts: { adjustSnapshot?: boolean } = {},
 ): Promise<void> {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const adjustSnapshot = opts.adjustSnapshot ?? true;
 
   await db.insert(schema.transactions).values({
-    profileId: SINGLE_PROFILE_ID,
+    profileId,
     accountId: input.accountId,
     type: input.type,
     amount: input.amount.toFixed(2),
@@ -132,10 +138,11 @@ export async function createAccount(input: {
   initialBalance: number;
 }): Promise<string> {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const [account] = await db
     .insert(schema.accounts)
     .values({
-      profileId: SINGLE_PROFILE_ID,
+      profileId,
       name: input.name,
       type: input.type,
       isInvested: input.isInvested,
@@ -153,25 +160,30 @@ export async function createAccount(input: {
 
 export async function deleteAccount(accountId: string): Promise<void> {
   const db = await getDb();
+  const profileId = await currentProfileId();
+  // Scope by owner so one user can't delete another's account by id guessing.
   // Snapshots/transactions cascade on account delete (FK onDelete: cascade).
-  await db.delete(schema.accounts).where(eq(schema.accounts.id, accountId));
+  await db
+    .delete(schema.accounts)
+    .where(and(eq(schema.accounts.id, accountId), eq(schema.accounts.profileId, profileId)));
 }
 
-/** Wipe all single-user data — used by onboarding (Phase 3) to start fresh. */
+/** Wipe the current profile's data — used by onboarding to start fresh. */
 export async function resetProfileData(): Promise<void> {
   const db = await getDb();
+  const profileId = await currentProfileId();
   const accounts = await db
     .select({ id: schema.accounts.id })
     .from(schema.accounts)
-    .where(eq(schema.accounts.profileId, SINGLE_PROFILE_ID));
+    .where(eq(schema.accounts.profileId, profileId));
   const ids = accounts.map((a) => a.id);
   if (ids.length) {
     await db.delete(schema.snapshots).where(inArray(schema.snapshots.accountId, ids));
   }
-  await db.delete(schema.transactions).where(eq(schema.transactions.profileId, SINGLE_PROFILE_ID));
-  await db.delete(schema.accounts).where(eq(schema.accounts.profileId, SINGLE_PROFILE_ID));
+  await db.delete(schema.transactions).where(eq(schema.transactions.profileId, profileId));
+  await db.delete(schema.accounts).where(eq(schema.accounts.profileId, profileId));
   // Also clear earned badges and the streak, so a re-onboarded profile starts
   // clean rather than inheriting stale milestones / best streak.
-  await db.delete(schema.milestones).where(eq(schema.milestones.profileId, SINGLE_PROFILE_ID));
-  await db.delete(schema.streaks).where(eq(schema.streaks.profileId, SINGLE_PROFILE_ID));
+  await db.delete(schema.milestones).where(eq(schema.milestones.profileId, profileId));
+  await db.delete(schema.streaks).where(eq(schema.streaks.profileId, profileId));
 }
