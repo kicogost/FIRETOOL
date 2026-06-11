@@ -1,11 +1,12 @@
-import type { Config } from "tailwindcss";
-import typography from "@tailwindcss/typography";
+const typography = require("@tailwindcss/typography");
 
 /**
  * Bento design system (TypeUI). Warm over sterile: cream surfaces, peach primary,
  * steel-blue secondary, green for positive. Grid of self-contained tiles.
+ *
+ * @type {import('tailwindcss').Config}
  */
-const config: Config = {
+module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
@@ -34,5 +35,3 @@ const config: Config = {
   },
   plugins: [typography],
 };
-
-export default config;
