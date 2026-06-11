@@ -21,6 +21,12 @@ export default async function AccountsPage() {
       <p className="text-sm text-ink/50">
         Las cuentas de inversión cuentan para tu número FIRE; las deudas restan.
       </p>
+      <Link
+        href="/actualizar"
+        className="mt-3 block rounded-2xl bg-surface p-3 text-center text-sm font-bold text-teal shadow-neu-sm"
+      >
+        📅 Actualizar saldos del mes →
+      </Link>
 
       <div className="mt-4 space-y-3">
         {accounts.map((a) => (
@@ -36,7 +42,7 @@ export default async function AccountsPage() {
               </div>
               <div className="flex items-center gap-3">
                 <span
-                  className={`font-bold tabular-nums ${a.type === "debt" ? "text-red-600" : ""}`}
+                  className={`font-bold tabular-nums ${a.type === "debt" ? "text-danger" : ""}`}
                 >
                   {a.type === "debt" ? `−${eur(a.balance)}` : eur(a.balance)}
                 </span>
@@ -45,7 +51,7 @@ export default async function AccountsPage() {
                   <button
                     type="submit"
                     aria-label={`Eliminar ${a.name}`}
-                    className="text-ink/30 hover:text-red-500"
+                    className="text-ink/30 hover:text-danger"
                   >
                     ✕
                   </button>

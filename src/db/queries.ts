@@ -334,3 +334,61 @@ export async function getSpendingAnalysis(): Promise<SpendingAnalysis> {
     new Date(),
   );
 }
+
+export interface UpdateData {
+  accounts: AccountWithBalance[];
+  lastUpdatedMonth: string | null; // YYYY-MM
+  needsUpdate: boolean; // latest snapshot is older than the current month
+}
+
+/** Data for the monthly "Actualizar saldos" flow + freshness nudge. */
+export async function getUpdateData(): Promise<UpdateData> {
+  const db = await getDb();
+  const profileId = await currentProfileId();
+  const accounts = await getAccountsWithBalance();
+
+  const accountRows = await db
+    .select({ id: schema.accounts.id })
+    .from(schema.accounts)
+    .where(eq(schema.accounts.profileId, profileId));
+  const ids = accountRows.map((a) => a.id);
+
+  let lastUpdatedMonth: string | null = null;
+  if (ids.length) {
+    const snaps = await db
+      .select({ date: schema.snapshots.date })
+      .from(schema.snapshots)
+      .where(inArray(schema.snapshots.accountId, ids));
+    const maxDate = snaps.reduce<string | null>((m, s) => (m === null || s.date > m ? s.date : m), null);
+    lastUpdatedMonth = maxDate ? monthKey(maxDate) : null;
+  }
+
+  const now = new Date();
+  const curMonth = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
+  const needsUpdate = accounts.length > 0 && lastUpdatedMonth !== null && lastUpdatedMonth < curMonth;
+
+  return { accounts, lastUpdatedMonth, needsUpdate };
+}
+
+/** Month-by-month history (newest first) for the Historial view. */
+export async function getMonthlyHistory(): Promise<import("@/lib/history").MonthSummary[]> {
+  const db = await getDb();
+  const profileId = await currentProfileId();
+  const txns = await db
+    .select()
+    .from(schema.transactions)
+    .where(eq(schema.transactions.profileId, profileId));
+  const series = await getNetWorthSeries();
+  const nwByMonth = new Map(series.map((p) => [p.month, p.netWorth]));
+
+  const { summarizeMonthlyHistory } = await import("@/lib/history");
+  return summarizeMonthlyHistory(
+    txns.map((t) => ({
+      type: t.type as "income" | "expense" | "contribution" | "withdrawal",
+      amount: num(t.amount),
+      category: t.category,
+      date: t.date,
+    })),
+    nwByMonth,
+  );
+}

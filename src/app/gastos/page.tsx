@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getSpendingAnalysis, getProfile } from "@/db/queries";
 import { getAccountsList, getCategories } from "@/db/mutations";
 import { Nav } from "@/components/ui/Nav";
@@ -31,8 +32,15 @@ export default async function GastosPage() {
   return (
     <main className="mx-auto max-w-md px-4 pb-28 pt-2">
       <Nav />
-      <h1 className="mt-2 px-1 text-xl font-bold">Tus gastos</h1>
-      <p className="px-1 text-sm text-ink/50">En qué se va tu dinero, y dónde puedes recortar.</p>
+      <div className="flex items-end justify-between px-1">
+        <div>
+          <h1 className="mt-2 text-xl font-bold">Tus gastos</h1>
+          <p className="text-sm text-ink/50">En qué se va tu dinero, y dónde puedes recortar.</p>
+        </div>
+        <Link href="/historial" className="pb-1 text-xs font-bold text-teal">
+          Historial →
+        </Link>
+      </div>
 
       <div className="mt-4 grid grid-cols-2 gap-4">
         <Card className="col-span-1">
