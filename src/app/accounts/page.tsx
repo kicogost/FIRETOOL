@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getAccountsWithBalance } from "@/db/queries";
 import { deleteAccountAction } from "@/app/actions/accounts";
 import { Nav } from "@/components/ui/Nav";
+import { BottomNav } from "@/components/ui/BottomNav";
 import { Card } from "@/components/ui/Card";
 import { AddAccountForm } from "@/components/accounts/AddAccountForm";
 import { ACCOUNT_TYPE_LABELS } from "@/lib/labels";
@@ -13,8 +14,8 @@ export default async function AccountsPage() {
   const accounts = await getAccountsWithBalance();
 
   return (
-    <main className="mx-auto max-w-md px-5 pb-16 pt-2">
-      <Nav active="accounts" />
+    <main className="mx-auto max-w-md px-5 pb-24 pt-2">
+      <Nav />
 
       <h1 className="mt-3 text-xl font-bold">Tus cuentas</h1>
       <p className="text-sm text-ink/50">
@@ -65,10 +66,11 @@ export default async function AccountsPage() {
 
       <Link
         href="/import"
-        className="mt-6 block text-center text-sm font-medium text-success"
+        className="mt-6 block text-center text-sm font-bold text-teal"
       >
         Importar movimientos desde CSV →
       </Link>
+      <BottomNav />
     </main>
   );
 }

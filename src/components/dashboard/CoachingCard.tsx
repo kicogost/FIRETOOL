@@ -8,7 +8,7 @@ export function CoachingCard({ data }: { data: DashboardData }) {
 
   return (
     <Link
-      href={`/coaching/${module.slug}`}
+      href={`/aprender/${module.slug}`}
       className="col-span-2 block rounded-2xl bg-surface p-5 shadow-neu transition active:shadow-neu-inset"
     >
       <p className="text-xs font-bold uppercase tracking-wide text-teal">

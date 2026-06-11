@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getDashboardData } from "@/db/queries";
 import { getAccountsList, getCategories } from "@/db/mutations";
 import { Nav } from "@/components/ui/Nav";
+import { BottomNav } from "@/components/ui/BottomNav";
 import { StatTile } from "@/components/ui/StatTile";
 import { Hero } from "@/components/dashboard/Hero";
 import { ThisMonth } from "@/components/dashboard/ThisMonth";
@@ -34,7 +35,12 @@ export default async function Dashboard() {
 
   return (
     <main className="mx-auto max-w-md px-4 pb-28 pt-2">
-      <Nav active="dashboard" />
+      <Nav />
+      <div className="mt-1 flex justify-end px-1">
+        <Link href="/accounts" className="text-xs font-bold text-teal">
+          Gestionar cuentas →
+        </Link>
+      </div>
 
       {/* Grid of neumorphic tiles — wide gaps so the soft shadows don't overlap. */}
       <div className="mt-4 grid grid-cols-2 gap-5">
@@ -86,6 +92,7 @@ export default async function Dashboard() {
         accounts={accounts.map((a) => ({ id: a.id, name: a.name, type: a.type }))}
         categories={categories.map((c) => ({ name: c.name, kind: c.kind }))}
       />
+      <BottomNav />
     </main>
   );
 }

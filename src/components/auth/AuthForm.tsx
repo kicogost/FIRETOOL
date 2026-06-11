@@ -30,8 +30,11 @@ export function AuthForm() {
       </h1>
       <p className="mt-1 text-sm text-ink/50">
         {mode === "signin"
-          ? "Tu camino hacia la independencia financiera."
+          ? "Tu patrimonio y tu camino FIRE, España-first."
           : "Empieza a planificar tu libertad financiera."}
+      </p>
+      <p className="mt-3 text-xs font-bold text-teal">
+        Sin conectar tu banco · Sin comisiones · Tus datos son tuyos
       </p>
 
       <form action={formAction} className="mt-6 space-y-4">
