@@ -47,7 +47,7 @@ export default async function SummaryPage() {
           sub={`${pct(data.progress)} de tu meta`} />
         <Stat label="Ahorro mensual estimado" value={`${eur(surplus)}/mes`} />
 
-        <div className="rounded-tile bg-peach p-6 text-ink shadow-tile">
+        <div className="rounded-2xl bg-surface p-6 text-ink shadow-neu">
           <p className="text-sm text-ink/60">Si inviertes tu ahorro cada mes…</p>
           {projection.onTrack && projection.date ? (
             <>
@@ -79,7 +79,7 @@ export default async function SummaryPage() {
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-tile border border-cream-deep bg-white p-5 shadow-tile-sm">
+    <div className="rounded-2xl bg-surface p-5 shadow-neu-sm">
       <p className="text-sm text-ink/50">{label}</p>
       <p className="font-mono text-2xl font-bold tabular-nums">{value}</p>
       {sub && <p className="text-sm text-ink/40">{sub}</p>}

@@ -34,7 +34,7 @@ export function AddAccountForm() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl border-2 border-dashed border-cream-deep py-3 text-sm font-semibold text-ink/50"
+        className="w-full rounded-xl shadow-neu py-3 text-sm font-semibold text-ink/50"
       >
         + Añadir cuenta
       </button>
@@ -42,7 +42,7 @@ export function AddAccountForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-cream-deep p-5">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl shadow-neu-inset p-5">
       <label className="block">
         <span className="text-sm text-ink/60">Nombre</span>
         <input
@@ -50,7 +50,7 @@ export function AddAccountForm() {
           required
           autoFocus
           placeholder="p. ej. Broker indexado"
-          className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
+          className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2"
         />
       </label>
 
@@ -60,7 +60,7 @@ export function AddAccountForm() {
           name="type"
           value={type}
           onChange={(e) => setType(e.target.value as AccountType)}
-          className="mt-1 w-full rounded-xl border border-cream-deep bg-white px-3 py-2"
+          className="mt-1 w-full rounded-xl shadow-neu-inset bg-surface px-3 py-2"
         >
           {TYPES.map((t) => (
             <option key={t} value={t}>
@@ -78,7 +78,7 @@ export function AddAccountForm() {
           step="0.01"
           min="0"
           required
-          className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
+          className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2"
         />
       </label>
 
@@ -100,14 +100,14 @@ export function AddAccountForm() {
         <button
           type="submit"
           disabled={pending}
-          className="flex-1 rounded-xl bg-success py-2.5 font-semibold text-white disabled:opacity-50"
+          className="flex-1 rounded-xl bg-teal py-2.5 font-semibold text-white disabled:opacity-50"
         >
           {pending ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="rounded-xl bg-cream px-4 py-2.5 font-semibold text-ink/60"
+          className="rounded-xl bg-surface px-4 py-2.5 font-semibold text-ink/60"
         >
           Cancelar
         </button>

@@ -11,7 +11,7 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
+      className="w-full rounded-xl bg-teal py-3 font-semibold text-white disabled:opacity-50"
     >
       {pending ? "Un momento…" : label}
     </button>
@@ -24,7 +24,7 @@ export function AuthForm() {
   const [state, formAction] = useActionState<AuthState, FormData>(action, {});
 
   return (
-    <div className="mx-auto w-full max-w-sm rounded-tile border border-cream-deep bg-white p-7 shadow-tile">
+    <div className="mx-auto w-full max-w-sm rounded-2xl bg-surface p-7 shadow-neu">
       <h1 className="text-2xl font-bold">
         {mode === "signin" ? "Entra en FIRE Tracker" : "Crea tu cuenta"}
       </h1>
@@ -42,7 +42,7 @@ export function AuthForm() {
             type="email"
             autoComplete="email"
             required
-            className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
+            className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2"
           />
         </label>
         <label className="block">
@@ -53,7 +53,7 @@ export function AuthForm() {
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
             required
             minLength={6}
-            className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
+            className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2"
           />
         </label>
 

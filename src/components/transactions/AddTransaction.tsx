@@ -71,7 +71,7 @@ export function AddTransaction({
       <button
         onClick={() => setOpen(true)}
         aria-label="Añadir movimiento"
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-success text-3xl text-white shadow-lg transition hover:bg-success/90"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-teal text-3xl text-white shadow-neu transition active:shadow-neu-inset"
       >
         +
       </button>
@@ -82,7 +82,7 @@ export function AddTransaction({
           onClick={() => setOpen(false)}
         >
           <div
-            className="w-full max-w-md rounded-t-3xl bg-white p-6 sm:rounded-3xl"
+            className="w-full max-w-md rounded-t-3xl bg-surface p-6 sm:rounded-3xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
@@ -102,7 +102,7 @@ export function AddTransaction({
                     key={t}
                     onClick={() => setType(t)}
                     className={`rounded-xl px-2 py-2 text-xs font-medium ${
-                      type === t ? "bg-success text-white" : "bg-cream text-ink/60"
+                      type === t ? "bg-teal text-white" : "bg-surface text-ink/60"
                     }`}
                   >
                     {TX_TYPE_LABELS[t]}
@@ -119,7 +119,7 @@ export function AddTransaction({
                   min="0"
                   required
                   autoFocus
-                  className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2 text-lg"
+                  className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2 text-lg"
                 />
               </label>
 
@@ -128,7 +128,7 @@ export function AddTransaction({
                 <select
                   name="accountId"
                   required
-                  className="mt-1 w-full rounded-xl border border-cream-deep bg-white px-3 py-2"
+                  className="mt-1 w-full rounded-xl shadow-neu-inset bg-surface px-3 py-2"
                 >
                   {accounts.map((a) => (
                     <option key={a.id} value={a.id}>
@@ -143,7 +143,7 @@ export function AddTransaction({
                   <span className="text-sm text-ink/60">Categoría</span>
                   <select
                     name="category"
-                    className="mt-1 w-full rounded-xl border border-cream-deep bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl shadow-neu-inset bg-surface px-3 py-2"
                   >
                     <option value="">Sin categoría</option>
                     {relevantCategories.map((c) => (
@@ -161,7 +161,7 @@ export function AddTransaction({
                   name="date"
                   type="date"
                   defaultValue={today}
-                  className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
+                  className="mt-1 w-full rounded-xl shadow-neu-inset px-3 py-2"
                 />
               </label>
 
@@ -170,7 +170,7 @@ export function AddTransaction({
               <button
                 type="submit"
                 disabled={pending || accounts.length === 0}
-                className="w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
+                className="w-full rounded-xl bg-teal py-3 font-semibold text-white disabled:opacity-50"
               >
                 {pending ? "Guardando…" : "Guardar movimiento"}
               </button>

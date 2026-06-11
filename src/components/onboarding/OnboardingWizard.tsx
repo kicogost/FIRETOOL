@@ -90,9 +90,9 @@ export function OnboardingWizard() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col px-5 py-6">
       {/* Progress */}
-      <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-cream">
+      <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-surface">
         <div
-          className="h-full rounded-full bg-success transition-[width] duration-300"
+          className="h-full rounded-full bg-teal transition-[width] duration-300"
           style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }}
         />
       </div>
@@ -224,7 +224,7 @@ export function OnboardingWizard() {
             <button
               onClick={submit}
               disabled={pending || !d.rewardStyle}
-              className="mt-6 w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
+              className="mt-6 w-full rounded-xl bg-teal py-3 font-semibold text-white disabled:opacity-50"
             >
               {pending ? "Calculando tu punto de partida…" : "Ver mi punto de partida"}
             </button>
@@ -265,7 +265,7 @@ function TextInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       autoFocus={autoFocus}
-      className="w-full rounded-xl border border-cream-deep px-4 py-3 text-lg"
+      className="w-full rounded-xl shadow-neu-inset px-4 py-3 text-lg"
     />
   );
 }
@@ -293,7 +293,7 @@ function NumberInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoFocus={autoFocus}
-        className="w-full rounded-xl border border-cream-deep px-4 py-3 text-lg"
+        className="w-full rounded-xl shadow-neu-inset px-4 py-3 text-lg"
       />
       {suffix && <span className="text-ink/40">{suffix}</span>}
     </div>
@@ -312,7 +312,7 @@ function MoneyRow({ label, value, onChange }: { label: string; value: string; on
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="0"
-          className="w-28 rounded-xl border border-cream-deep px-3 py-2 text-right"
+          className="w-28 rounded-xl shadow-neu-inset px-3 py-2 text-right"
         />
         <span className="text-ink/40">€</span>
       </div>
@@ -335,8 +335,8 @@ function Choices({
         <button
           key={o.value}
           onClick={() => onPick(o.value)}
-          className={`w-full rounded-xl border-2 px-4 py-3 text-left ${
-            value === o.value ? "border-success bg-peach/50" : "border-cream-deep"
+          className={`w-full rounded-xl bg-surface px-4 py-3 text-left shadow-neu-sm ${
+            value === o.value ? "bg-surface shadow-neu-inset text-teal" : "shadow-neu"
           }`}
         >
           <span className="font-semibold">{o.label}</span>
@@ -351,14 +351,14 @@ function Continue({ onClick, disabled, onBack }: { onClick: () => void; disabled
   return (
     <div className="mt-6 flex gap-2">
       {onBack && (
-        <button onClick={onBack} className="rounded-xl bg-cream px-4 py-3 font-semibold text-ink/60">
+        <button onClick={onBack} className="rounded-xl bg-surface px-4 py-3 font-semibold text-ink/60">
           Atrás
         </button>
       )}
       <button
         onClick={onClick}
         disabled={disabled}
-        className="flex-1 rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
+        className="flex-1 rounded-xl bg-teal py-3 font-semibold text-white disabled:opacity-50"
       >
         Continuar
       </button>

@@ -18,16 +18,16 @@ export function SpendBreakdown({ data }: { data: DashboardData }) {
                 <span className="flex items-center gap-1.5">
                   {c.category}
                   {c.fastestGrowing && (
-                    <span className="rounded-full bg-warn/15 px-1.5 py-0.5 text-[10px] font-semibold text-warn">
+                    <span className="rounded-full bg-surface px-1.5 py-0.5 text-[10px] font-bold text-warn shadow-neu-sm">
                       ↑ en aumento
                     </span>
                   )}
                 </span>
-                <span className="font-mono font-semibold tabular-nums">{eur(c.amount)}</span>
+                <span className="font-bold tabular-nums">{eur(c.amount)}</span>
               </div>
-              <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-cream">
+              <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-surface shadow-neu-inset">
                 <div
-                  className={`h-full rounded-full ${c.fastestGrowing ? "bg-warn" : "bg-steel"}`}
+                  className={`h-full rounded-full ${c.fastestGrowing ? "bg-warn" : "bg-teal"}`}
                   style={{ width: `${(c.amount / max) * 100}%` }}
                 />
               </div>

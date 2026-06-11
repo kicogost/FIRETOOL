@@ -35,7 +35,7 @@ export default async function CoachingModulePage({
 
       <Link
         href={module.action.href}
-        className="mt-6 block rounded-xl bg-success py-3 text-center font-semibold text-white"
+        className="mt-6 block rounded-xl bg-teal py-3 text-center font-semibold text-white"
       >
         {module.action.label}
       </Link>

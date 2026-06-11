@@ -96,7 +96,7 @@ function fechaFire(r: ReturnType<typeof projectedFireDate>): string {
 
 function Fila({ etiqueta, valor }: { etiqueta: string; valor: string }) {
   return (
-    <div className="flex items-baseline justify-between border-b border-cream-deep py-2">
+    <div className="flex items-baseline justify-between border-b border-ink/10 py-2">
       <span className="text-ink/60">{etiqueta}</span>
       <span className="font-mono font-semibold">{valor}</span>
     </div>

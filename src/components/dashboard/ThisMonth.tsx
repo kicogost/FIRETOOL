@@ -11,7 +11,7 @@ export function ThisMonth({ data }: { data: DashboardData }) {
       <div className="flex items-baseline justify-between">
         <span className="text-ink/60">Tasa de ahorro</span>
         <span
-          className={`font-mono text-2xl font-bold tabular-nums ${
+          className={`text-2xl font-bold tabular-nums ${
             thisMonth.savingsRate < 0 ? "text-danger" : onTarget ? "text-success" : "text-ink"
           }`}
         >
@@ -33,9 +33,9 @@ export function ThisMonth({ data }: { data: DashboardData }) {
 
 function Metric({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
-    <div className="rounded-2xl bg-cream p-3">
-      <p className="text-xs text-ink/50">{label}</p>
-      <p className={`font-mono text-sm font-semibold ${highlight ? "text-success" : "text-ink"}`}>
+    <div className="rounded-xl bg-surface p-3 shadow-neu-inset">
+      <p className="text-xs text-ink/45">{label}</p>
+      <p className={`text-sm font-bold tabular-nums ${highlight ? "text-teal" : "text-ink"}`}>
         {value}
       </p>
     </div>

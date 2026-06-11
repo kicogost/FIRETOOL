@@ -28,16 +28,18 @@ export function NetWorthChart({ series }: { series: NetWorthPoint[] }) {
   return (
     <Card className="col-span-2">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+        <h2 className="text-xs font-bold uppercase tracking-wide text-ink/45">
           Patrimonio neto
         </h2>
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           {RANGES.map((r) => (
             <button
               key={r.key}
               onClick={() => setRange(r.key)}
-              className={`rounded-lg px-2.5 py-1 text-xs font-medium ${
-                range === r.key ? "bg-ink text-white" : "bg-cream text-ink/60"
+              className={`rounded-lg px-2.5 py-1 text-xs font-bold transition ${
+                range === r.key
+                  ? "bg-surface text-teal shadow-neu-inset"
+                  : "bg-surface text-ink/50 shadow-neu-sm"
               }`}
             >
               {r.label}
@@ -66,7 +68,7 @@ export function NetWorthChart({ series }: { series: NetWorthPoint[] }) {
             <Line
               type="monotone"
               dataKey="netWorth"
-              stroke="#5E82A6"
+              stroke="#006666"
               strokeWidth={2.5}
               dot={false}
             />

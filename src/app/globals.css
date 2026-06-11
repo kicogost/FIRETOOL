@@ -7,13 +7,31 @@
     background-color: theme("colors.surface");
     color: theme("colors.ink");
   }
-  /* Visible focus for keyboard nav (Bento accessibility baseline, WCAG 2.2 AA). */
+  /* Visible focus for keyboard nav (WCAG 2.2 AA) — teal primary. */
   *:focus-visible {
-    outline: 2px solid theme("colors.steel.deep");
-    outline-offset: 2px;
+    outline: 2px solid theme("colors.teal.DEFAULT");
+    outline-offset: 3px;
   }
-  /* Tabular figures everywhere numbers matter. */
   .tabular-nums {
     font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Neumorphic building blocks — one material, depth from paired shadows. */
+@layer components {
+  .neu-raised {
+    @apply rounded-2xl bg-surface shadow-neu;
+  }
+  .neu-inset {
+    @apply rounded-2xl bg-surface shadow-neu-inset;
+  }
+  .neu-input {
+    @apply w-full rounded-xl bg-surface px-3 py-2 text-ink shadow-neu-inset outline-none placeholder:text-ink/30;
+  }
+  .neu-btn {
+    @apply rounded-xl bg-surface px-4 py-2.5 font-bold text-teal shadow-neu transition active:shadow-neu-inset disabled:opacity-50;
+  }
+  .neu-btn-primary {
+    @apply rounded-xl bg-teal px-4 py-3 font-bold text-white shadow-neu transition hover:bg-teal-deep active:shadow-neu-inset disabled:opacity-60;
   }
 }

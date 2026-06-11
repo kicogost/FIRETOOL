@@ -1,22 +1,21 @@
-type Variant = "default" | "peach" | "steel" | "dark";
+type Variant = "default" | "inset" | "accent";
 
 const VARIANTS: Record<Variant, string> = {
-  default: "bg-white border border-cream-deep text-ink",
-  peach: "bg-peach text-ink",
-  steel: "bg-steel text-white",
-  dark: "bg-ink text-white",
+  default: "bg-surface shadow-neu",
+  inset: "bg-surface shadow-neu-inset",
+  accent: "bg-surface shadow-neu",
 };
 
 const TITLE_COLOR: Record<Variant, string> = {
-  default: "text-ink/50",
-  peach: "text-ink/60",
-  steel: "text-white/80",
-  dark: "text-white/70",
+  default: "text-ink/45",
+  inset: "text-ink/45",
+  accent: "text-teal",
 };
 
 /**
- * Bento tile — a self-contained block. Compose into a grid with `className`
- * spans (e.g. "col-span-2"). Variants tint the surface for visual rhythm.
+ * Neumorphic tile — emerges from the single stone surface via paired shadows.
+ * No borders or fills; depth is the shadow. Compose into a grid with `className`
+ * spans (e.g. "col-span-2").
  */
 export function Card({
   title,
@@ -30,9 +29,9 @@ export function Card({
   variant?: Variant;
 }) {
   return (
-    <section className={`rounded-tile p-5 shadow-tile-sm ${VARIANTS[variant]} ${className}`}>
+    <section className={`rounded-2xl p-5 ${VARIANTS[variant]} ${className}`}>
       {title && (
-        <h2 className={`mb-3 text-xs font-semibold uppercase tracking-wide ${TITLE_COLOR[variant]}`}>
+        <h2 className={`mb-3 text-xs font-bold uppercase tracking-wide ${TITLE_COLOR[variant]}`}>
           {title}
         </h2>
       )}

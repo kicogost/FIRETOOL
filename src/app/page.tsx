@@ -22,10 +22,7 @@ export default async function Dashboard() {
       <main className="mx-auto max-w-md px-5 py-16 text-center">
         <h1 className="text-2xl font-bold">Bienvenido a FIRE Tracker</h1>
         <p className="mt-2 text-ink/60">Aún no has configurado tu perfil.</p>
-        <Link
-          href="/onboarding"
-          className="mt-6 inline-block rounded-2xl bg-success px-5 py-3 font-semibold text-white"
-        >
+        <Link href="/onboarding" className="neu-btn-primary mt-6 inline-block">
           Empezar
         </Link>
       </main>
@@ -39,8 +36,8 @@ export default async function Dashboard() {
     <main className="mx-auto max-w-md px-4 pb-28 pt-2">
       <Nav active="dashboard" />
 
-      {/* Bento grid: full-width hero/wide tiles + 1×1 stat cells. */}
-      <div className="mt-3 grid grid-cols-2 gap-3">
+      {/* Grid of neumorphic tiles — wide gaps so the soft shadows don't overlap. */}
+      <div className="mt-4 grid grid-cols-2 gap-5">
         <Hero data={data} />
         <ThisMonth data={data} />
 

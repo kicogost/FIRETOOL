@@ -1,8 +1,9 @@
 const typography = require("@tailwindcss/typography");
 
 /**
- * Bento design system (TypeUI). Warm over sterile: cream surfaces, peach primary,
- * steel-blue secondary, green for positive. Grid of self-contained tiles.
+ * Neumorphism design system (TypeUI). One stone-gray material: elements emerge
+ * from the surface via paired soft shadows (raised) or inverted shadows (inset),
+ * never borders or contrasting fills. Deep-teal accents, Space Mono type.
  *
  * @type {import('tailwindcss').Config}
  */
@@ -11,25 +12,24 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        surface: "#FFF5E6", // cream — page + card fills
-        cream: { DEFAULT: "#FFF5E6", deep: "#F6E8D4" },
-        peach: { DEFAULT: "#FAD4C0", deep: "#F4B89D" }, // primary accent
-        steel: { DEFAULT: "#80A1C1", deep: "#5E82A6" }, // secondary accent
-        ink: "#111827", // text
-        success: "#16A34A",
-        warn: "#D97706",
-        danger: "#DC2626",
+        surface: "#E7E5E4", // warm stone-gray — the single base material
+        ink: "#1E2938", // navy-charcoal text
+        teal: { DEFAULT: "#006666", deep: "#004D4D" }, // primary accent
+        secondary: "#F1F2F5",
+        success: "#00A63D",
+        warn: "#FE9900",
+        danger: "#FF2157",
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-space-mono)", "ui-monospace", "monospace"],
         mono: ["var(--font-jetbrains)", "ui-monospace", "monospace"],
       },
-      borderRadius: {
-        tile: "1.5rem", // 24px — bento tiles
-      },
       boxShadow: {
-        tile: "0 1px 2px rgba(17,24,39,0.04), 0 8px 24px rgba(17,24,39,0.05)",
-        "tile-sm": "0 1px 2px rgba(17,24,39,0.04), 0 4px 12px rgba(17,24,39,0.04)",
+        // Top-left light source: light highlight top-left, dark shadow bottom-right.
+        neu: "6px 6px 12px #c7c5c4, -6px -6px 12px #ffffff",
+        "neu-sm": "4px 4px 8px #cbc9c8, -4px -4px 8px #ffffff",
+        "neu-inset": "inset 4px 4px 8px #c7c5c4, inset -4px -4px 8px #ffffff",
+        "neu-pressed": "inset 5px 5px 10px #c1bfbe, inset -5px -5px 10px #ffffff",
       },
     },
   },

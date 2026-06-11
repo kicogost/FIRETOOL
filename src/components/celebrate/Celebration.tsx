@@ -60,7 +60,7 @@ export function Celebration({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-sm rounded-3xl bg-white p-7 text-center shadow-xl"
+        className="w-full max-w-sm rounded-3xl bg-surface p-7 text-center shadow-neu"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="text-5xl">🎉</div>
@@ -86,7 +86,7 @@ export function Celebration({
         {payload.newMilestones.length > 0 && (
           <div className="mt-4 space-y-2">
             {payload.newMilestones.map((m) => (
-              <div key={m.key} className="rounded-xl bg-peach/50 px-3 py-2 text-left">
+              <div key={m.key} className="rounded-xl bg-surface px-3 py-2 text-left">
                 <p className="text-sm font-semibold text-ink">🏅 {m.title}</p>
                 <p className="text-xs text-success">{m.description}</p>
               </div>
@@ -103,7 +103,7 @@ export function Celebration({
 
         <button
           onClick={onClose}
-          className="mt-6 w-full rounded-xl bg-success py-3 font-semibold text-white"
+          className="mt-6 w-full rounded-xl bg-teal py-3 font-semibold text-white"
         >
           ¡Seguir así!
         </button>

@@ -17,7 +17,7 @@ export default function CoachingPage() {
           <Link
             key={m.slug}
             href={`/coaching/${m.slug}`}
-            className="block rounded-2xl border border-cream-deep p-4"
+            className="block rounded-2xl shadow-neu-inset p-4"
           >
             <p className="text-xs font-semibold uppercase tracking-wide text-success">
               {m.readingMinutes} min
