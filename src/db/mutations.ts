@@ -50,6 +50,30 @@ export async function updateProfile(input: {
     .onConflictDoUpdate({ target: schema.profiles.id, set: values });
 }
 
+/** Update the FIRE assumptions / profile from the settings page. */
+export async function updateSettings(input: {
+  name: string;
+  age: number;
+  retirementMonthlySpend: number;
+  swr: number; // decimal, e.g. 0.035
+  expectedReturn: number; // decimal
+  rewardStyle: "quiet" | "loud";
+}): Promise<void> {
+  const db = await getDb();
+  const profileId = await currentProfileId();
+  await db
+    .update(schema.profiles)
+    .set({
+      name: input.name,
+      age: input.age,
+      retirementMonthlySpend: input.retirementMonthlySpend.toFixed(2),
+      swr: input.swr.toFixed(4),
+      expectedReturn: input.expectedReturn.toFixed(4),
+      rewardStyle: input.rewardStyle,
+    })
+    .where(eq(schema.profiles.id, profileId));
+}
+
 export async function getCategories() {
   const db = await getDb();
   return db.select().from(schema.categories).orderBy(schema.categories.name);
@@ -80,6 +104,15 @@ export async function addTransaction(
   const profileId = await currentProfileId();
   const adjustSnapshot = opts.adjustSnapshot ?? true;
 
+  // Verify the target account belongs to the current profile before writing,
+  // so a forged accountId can't attach to or mutate another user's account.
+  const [account] = await db
+    .select({ type: schema.accounts.type })
+    .from(schema.accounts)
+    .where(and(eq(schema.accounts.id, input.accountId), eq(schema.accounts.profileId, profileId)))
+    .limit(1);
+  if (!account) throw new Error("Cuenta no encontrada.");
+
   await db.insert(schema.transactions).values({
     profileId,
     accountId: input.accountId,
@@ -95,11 +128,6 @@ export async function addTransaction(
   if (!adjustSnapshot) return;
 
   // Roll the change into the account's current snapshot.
-  const [account] = await db
-    .select({ type: schema.accounts.type })
-    .from(schema.accounts)
-    .where(eq(schema.accounts.id, input.accountId))
-    .limit(1);
 
   const snaps = await db
     .select()
@@ -156,6 +184,69 @@ export async function createAccount(input: {
   });
 
   return account.id;
+}
+
+/**
+ * Set an account's CURRENT balance to an absolute value (monthly update). Unlike
+ * a transaction (a delta), this captures market moves + contributions in one go.
+ * Updates this month's snapshot in place, or creates it. Owner-scoped.
+ */
+export async function setAccountBalance(accountId: string, balance: number): Promise<void> {
+  const db = await getDb();
+  const profileId = await currentProfileId();
+  const [account] = await db
+    .select({ id: schema.accounts.id })
+    .from(schema.accounts)
+    .where(and(eq(schema.accounts.id, accountId), eq(schema.accounts.profileId, profileId)))
+    .limit(1);
+  if (!account) throw new Error("Cuenta no encontrada.");
+
+  const month = firstOfThisMonth();
+  const snaps = await db
+    .select()
+    .from(schema.snapshots)
+    .where(eq(schema.snapshots.accountId, accountId));
+  const latest = snaps.sort((a, b) => (a.date < b.date ? 1 : -1))[0];
+
+  if (latest && latest.date >= month) {
+    await db
+      .update(schema.snapshots)
+      .set({ balance: balance.toFixed(2) })
+      .where(eq(schema.snapshots.id, latest.id));
+  } else {
+    await db.insert(schema.snapshots).values({
+      accountId,
+      balance: balance.toFixed(2),
+      date: month,
+    });
+  }
+}
+
+/**
+ * Monthly check-in: set every account's current balance, and optionally record
+ * this month's contribution (for the streak/projection) WITHOUT re-moving the
+ * balance you just set.
+ */
+export async function applyMonthlyUpdate(input: {
+  balances: { accountId: string; balance: number }[];
+  contribution?: { accountId: string; amount: number } | null;
+}): Promise<void> {
+  for (const b of input.balances) {
+    await setAccountBalance(b.accountId, b.balance);
+  }
+  if (input.contribution && input.contribution.amount > 0) {
+    await addTransaction(
+      {
+        accountId: input.contribution.accountId,
+        type: "contribution",
+        amount: input.contribution.amount,
+        category: null,
+        note: "Aportación del mes",
+        date: todayYmd(),
+      },
+      { adjustSnapshot: false },
+    );
+  }
 }
 
 export async function deleteAccount(accountId: string): Promise<void> {

@@ -10,7 +10,15 @@ export type CoachingSlug =
   | "dollar-cost-averaging"
   | "index-funds"
   | "sinking-funds"
-  | "savings-rate";
+  | "savings-rate"
+  // España-first modules (from r/SpainFIRE research)
+  | "traspaso-fondos"
+  | "fiscalidad-inversor"
+  | "brokers-espana"
+  | "planes-pensiones"
+  | "comprar-vs-alquilar"
+  | "amortizar-vs-invertir"
+  | "modelo-720";
 
 /** Signals the triggers are evaluated against. */
 export interface CoachingContext {

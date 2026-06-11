@@ -21,7 +21,7 @@ export default function AprenderPage() {
             href={`/aprender/${m.slug}`}
             className="block rounded-2xl bg-surface p-4 shadow-neu-sm"
           >
-            <p className="text-xs font-bold uppercase tracking-wide text-success">
+            <p className="text-xs font-bold uppercase tracking-wide text-teal">
               {m.readingMinutes} min
             </p>
             <h2 className="mt-1 font-bold">{m.title}</h2>

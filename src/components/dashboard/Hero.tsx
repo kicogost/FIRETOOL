@@ -20,6 +20,9 @@ export function Hero({ data }: { data: DashboardData }) {
         <span className="text-5xl font-bold tabular-nums text-ink">{pct(progress)}</span>
         <span className="text-ink/50">de {eur(fireNumberValue)}</span>
       </div>
+      <p className="mt-0.5 text-[11px] text-ink/50">
+        Número FIRE antes de impuestos · ajústalo en Ajustes
+      </p>
 
       <div className="mt-4 h-4 w-full overflow-hidden rounded-full bg-surface shadow-neu-inset">
         <div
