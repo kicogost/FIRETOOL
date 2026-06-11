@@ -41,7 +41,7 @@ export function Celebration({
   if (!loud) {
     return (
       <div className="fixed inset-x-0 top-4 z-[60] flex justify-center px-4">
-        <div className="max-w-sm rounded-xl bg-gray-900 px-4 py-3 text-sm text-white shadow-lg">
+        <div className="max-w-sm rounded-xl bg-ink px-4 py-3 text-sm text-white shadow-lg">
           {hasStat
             ? `Tu fecha FIRE se adelanta ${daysEarlier} días. 👏`
             : payload.becameOnTrack
@@ -67,15 +67,15 @@ export function Celebration({
         {hasStat ? (
           <>
             <h2 className="mt-3 text-xl font-bold">¡Un paso más cerca!</h2>
-            <p className="mt-1 text-gray-600">
+            <p className="mt-1 text-ink/60">
               Esta aportación adelanta tu fecha FIRE{" "}
-              <strong className="text-emerald-600">{daysEarlier} días</strong>.
+              <strong className="text-success">{daysEarlier} días</strong>.
             </p>
           </>
         ) : payload.becameOnTrack ? (
           <>
             <h2 className="mt-3 text-xl font-bold">¡Ya vas por buen camino! 🚀</h2>
-            <p className="mt-1 text-gray-600">
+            <p className="mt-1 text-ink/60">
               Con esta aportación, ya tienes una fecha FIRE proyectada.
             </p>
           </>
@@ -86,16 +86,16 @@ export function Celebration({
         {payload.newMilestones.length > 0 && (
           <div className="mt-4 space-y-2">
             {payload.newMilestones.map((m) => (
-              <div key={m.key} className="rounded-xl bg-emerald-50 px-3 py-2 text-left">
-                <p className="text-sm font-semibold text-emerald-800">🏅 {m.title}</p>
-                <p className="text-xs text-emerald-700">{m.description}</p>
+              <div key={m.key} className="rounded-xl bg-peach/50 px-3 py-2 text-left">
+                <p className="text-sm font-semibold text-ink">🏅 {m.title}</p>
+                <p className="text-xs text-success">{m.description}</p>
               </div>
             ))}
           </div>
         )}
 
         {payload.streak.current > 0 && (
-          <p className="mt-4 text-sm text-gray-500">
+          <p className="mt-4 text-sm text-ink/50">
             Racha actual: <strong>{payload.streak.current}</strong>{" "}
             {payload.streak.current === 1 ? "mes" : "meses"} 🔥
           </p>
@@ -103,7 +103,7 @@ export function Celebration({
 
         <button
           onClick={onClose}
-          className="mt-6 w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white"
+          className="mt-6 w-full rounded-xl bg-success py-3 font-semibold text-white"
         >
           ¡Seguir así!
         </button>

@@ -11,7 +11,7 @@ function SubmitButton({ label }: { label: string }) {
     <button
       type="submit"
       disabled={pending}
-      className="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white disabled:opacity-50"
+      className="w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
     >
       {pending ? "Un momento…" : label}
     </button>
@@ -24,11 +24,11 @@ export function AuthForm() {
   const [state, formAction] = useActionState<AuthState, FormData>(action, {});
 
   return (
-    <div className="mx-auto max-w-sm">
+    <div className="mx-auto w-full max-w-sm rounded-tile border border-cream-deep bg-white p-7 shadow-tile">
       <h1 className="text-2xl font-bold">
         {mode === "signin" ? "Entra en FIRE Tracker" : "Crea tu cuenta"}
       </h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-ink/50">
         {mode === "signin"
           ? "Tu camino hacia la independencia financiera."
           : "Empieza a planificar tu libertad financiera."}
@@ -36,36 +36,36 @@ export function AuthForm() {
 
       <form action={formAction} className="mt-6 space-y-4">
         <label className="block">
-          <span className="text-sm text-gray-600">Correo electrónico</span>
+          <span className="text-sm text-ink/60">Correo electrónico</span>
           <input
             name="email"
             type="email"
             autoComplete="email"
             required
-            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
           />
         </label>
         <label className="block">
-          <span className="text-sm text-gray-600">Contraseña</span>
+          <span className="text-sm text-ink/60">Contraseña</span>
           <input
             name="password"
             type="password"
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
             required
             minLength={6}
-            className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
           />
         </label>
 
         {state.error && <p className="text-sm text-red-600">{state.error}</p>}
-        {state.message && <p className="text-sm text-emerald-700">{state.message}</p>}
+        {state.message && <p className="text-sm text-success">{state.message}</p>}
 
         <SubmitButton label={mode === "signin" ? "Entrar" : "Crear cuenta"} />
       </form>
 
       <button
         onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-        className="mt-4 w-full text-sm text-gray-500"
+        className="mt-4 w-full text-sm text-ink/50"
       >
         {mode === "signin"
           ? "¿No tienes cuenta? Crea una"

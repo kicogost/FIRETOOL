@@ -33,8 +33,8 @@ export function ImportCsv() {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-2xl border border-gray-200 p-4">
-        <p className="text-sm text-gray-600">
+      <div className="rounded-2xl border border-cream-deep p-4">
+        <p className="text-sm text-ink/60">
           Sube un archivo CSV o pega su contenido. Columnas:{" "}
           <code className="text-xs">fecha, tipo, importe, categoria, cuenta, nota</code>. El tipo
           puede ser <em>ingreso, gasto, aportación o retirada</em>. La cuenta debe coincidir con una
@@ -46,12 +46,12 @@ export function ImportCsv() {
           onChange={(e) => setText(e.target.value)}
           placeholder={EXAMPLE}
           rows={8}
-          className="mt-3 w-full rounded-xl border border-gray-300 p-3 font-mono text-xs"
+          className="mt-3 w-full rounded-xl border border-cream-deep p-3 font-mono text-xs"
         />
       </div>
 
       {preview && (
-        <div className="rounded-2xl bg-gray-50 p-4 text-sm">
+        <div className="rounded-2xl bg-cream p-4 text-sm">
           <p className="font-semibold">
             {preview.rows.length} movimiento(s) válido(s)
             {preview.errors.length > 0 && `, ${preview.errors.length} con error`}
@@ -70,14 +70,14 @@ export function ImportCsv() {
       <button
         onClick={submit}
         disabled={pending || !preview || preview.rows.length === 0}
-        className="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white disabled:opacity-50"
+        className="w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
       >
         {pending ? "Importando…" : `Importar ${preview?.rows.length ?? 0} movimiento(s)`}
       </button>
 
       {result && (
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-sm">
-          <p className="font-semibold text-emerald-800">
+        <div className="rounded-2xl border border-steel/30 bg-peach/50 p-4 text-sm">
+          <p className="font-semibold text-ink">
             ✓ {result.imported} movimiento(s) importado(s).
           </p>
           {result.unknownAccounts.length > 0 && (

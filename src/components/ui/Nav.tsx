@@ -7,7 +7,7 @@ export function Nav({ active }: { active: "dashboard" | "accounts" }) {
     <Link
       href={href}
       className={`text-sm font-medium ${
-        active === key ? "text-emerald-700" : "text-gray-400"
+        active === key ? "text-success" : "text-ink/40"
       }`}
     >
       {label}
@@ -22,7 +22,7 @@ export function Nav({ active }: { active: "dashboard" | "accounts" }) {
         {item("/coaching", "Aprende", "coaching")}
         {isAuthEnabled() && (
           <form action={signOut}>
-            <button type="submit" className="text-sm font-medium text-gray-400">
+            <button type="submit" className="text-sm font-medium text-ink/40">
               Salir
             </button>
           </form>

@@ -71,7 +71,7 @@ export function AddTransaction({
       <button
         onClick={() => setOpen(true)}
         aria-label="Añadir movimiento"
-        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-600 text-3xl text-white shadow-lg transition hover:bg-emerald-700"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-success text-3xl text-white shadow-lg transition hover:bg-success/90"
       >
         +
       </button>
@@ -87,7 +87,7 @@ export function AddTransaction({
           >
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">Nuevo movimiento</h2>
-              <button onClick={() => setOpen(false)} className="text-gray-400" aria-label="Cerrar">
+              <button onClick={() => setOpen(false)} className="text-ink/40" aria-label="Cerrar">
                 ✕
               </button>
             </div>
@@ -102,7 +102,7 @@ export function AddTransaction({
                     key={t}
                     onClick={() => setType(t)}
                     className={`rounded-xl px-2 py-2 text-xs font-medium ${
-                      type === t ? "bg-emerald-600 text-white" : "bg-gray-100 text-gray-600"
+                      type === t ? "bg-success text-white" : "bg-cream text-ink/60"
                     }`}
                   >
                     {TX_TYPE_LABELS[t]}
@@ -111,7 +111,7 @@ export function AddTransaction({
               </div>
 
               <label className="block">
-                <span className="text-sm text-gray-600">Importe (€)</span>
+                <span className="text-sm text-ink/60">Importe (€)</span>
                 <input
                   name="amount"
                   type="number"
@@ -119,16 +119,16 @@ export function AddTransaction({
                   min="0"
                   required
                   autoFocus
-                  className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2 text-lg"
+                  className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2 text-lg"
                 />
               </label>
 
               <label className="block">
-                <span className="text-sm text-gray-600">Cuenta</span>
+                <span className="text-sm text-ink/60">Cuenta</span>
                 <select
                   name="accountId"
                   required
-                  className="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2"
+                  className="mt-1 w-full rounded-xl border border-cream-deep bg-white px-3 py-2"
                 >
                   {accounts.map((a) => (
                     <option key={a.id} value={a.id}>
@@ -140,10 +140,10 @@ export function AddTransaction({
 
               {showCategory && (
                 <label className="block">
-                  <span className="text-sm text-gray-600">Categoría</span>
+                  <span className="text-sm text-ink/60">Categoría</span>
                   <select
                     name="category"
-                    className="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2"
+                    className="mt-1 w-full rounded-xl border border-cream-deep bg-white px-3 py-2"
                   >
                     <option value="">Sin categoría</option>
                     {relevantCategories.map((c) => (
@@ -156,12 +156,12 @@ export function AddTransaction({
               )}
 
               <label className="block">
-                <span className="text-sm text-gray-600">Fecha</span>
+                <span className="text-sm text-ink/60">Fecha</span>
                 <input
                   name="date"
                   type="date"
                   defaultValue={today}
-                  className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2"
+                  className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
                 />
               </label>
 
@@ -170,7 +170,7 @@ export function AddTransaction({
               <button
                 type="submit"
                 disabled={pending || accounts.length === 0}
-                className="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white disabled:opacity-50"
+                className="w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
               >
                 {pending ? "Guardando…" : "Guardar movimiento"}
               </button>

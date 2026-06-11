@@ -21,21 +21,21 @@ export default async function CoachingModulePage({
 
   return (
     <main className="mx-auto max-w-md px-5 pb-16 pt-4">
-      <Link href="/coaching" className="text-sm font-medium text-gray-400">
+      <Link href="/coaching" className="text-sm font-medium text-ink/40">
         ← Todos los módulos
       </Link>
 
-      <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-emerald-700">
+      <p className="mt-4 text-xs font-semibold uppercase tracking-wide text-success">
         {module.readingMinutes} min de lectura
       </p>
 
-      <article className="prose prose-sm mt-2 max-w-none prose-headings:font-bold prose-h2:text-lg prose-a:text-emerald-700">
+      <article className="prose prose-sm mt-2 max-w-none prose-headings:font-bold prose-h2:text-lg prose-a:text-success">
         <ReactMarkdown remarkPlugins={[remarkGfm]}>{module.body}</ReactMarkdown>
       </article>
 
       <Link
         href={module.action.href}
-        className="mt-6 block rounded-xl bg-emerald-600 py-3 text-center font-semibold text-white"
+        className="mt-6 block rounded-xl bg-success py-3 text-center font-semibold text-white"
       >
         {module.action.label}
       </Link>

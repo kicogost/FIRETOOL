@@ -17,7 +17,7 @@ export default async function AccountsPage() {
       <Nav active="accounts" />
 
       <h1 className="mt-3 text-xl font-bold">Tus cuentas</h1>
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-ink/50">
         Las cuentas de inversión cuentan para tu número FIRE; las deudas restan.
       </p>
 
@@ -27,7 +27,7 @@ export default async function AccountsPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-semibold">{a.name}</p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-ink/50">
                   {ACCOUNT_TYPE_LABELS[a.type]}
                   {a.isInvested && " · inversión"}
                   {a.type === "debt" && " · deuda"}
@@ -44,7 +44,7 @@ export default async function AccountsPage() {
                   <button
                     type="submit"
                     aria-label={`Eliminar ${a.name}`}
-                    className="text-gray-300 hover:text-red-500"
+                    className="text-ink/30 hover:text-red-500"
                   >
                     ✕
                   </button>
@@ -55,7 +55,7 @@ export default async function AccountsPage() {
         ))}
 
         {accounts.length === 0 && (
-          <p className="py-6 text-center text-sm text-gray-400">
+          <p className="py-6 text-center text-sm text-ink/40">
             Aún no tienes cuentas. Añade la primera para empezar.
           </p>
         )}
@@ -65,7 +65,7 @@ export default async function AccountsPage() {
 
       <Link
         href="/import"
-        className="mt-6 block text-center text-sm font-medium text-emerald-700"
+        className="mt-6 block text-center text-sm font-medium text-success"
       >
         Importar movimientos desde CSV →
       </Link>

@@ -7,9 +7,9 @@ export function SpendBreakdown({ data }: { data: DashboardData }) {
   const max = Math.max(1, ...spendBreakdown.map((c) => c.amount));
 
   return (
-    <Card title="Gastos del mes">
+    <Card title="Gastos del mes" className="col-span-2">
       {spendBreakdown.length === 0 ? (
-        <p className="text-sm text-gray-400">Sin gastos registrados este mes.</p>
+        <p className="text-sm text-ink/40">Sin gastos registrados este mes.</p>
       ) : (
         <ul className="space-y-3">
           {spendBreakdown.map((c) => (
@@ -18,16 +18,16 @@ export function SpendBreakdown({ data }: { data: DashboardData }) {
                 <span className="flex items-center gap-1.5">
                   {c.category}
                   {c.fastestGrowing && (
-                    <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-semibold text-amber-700">
+                    <span className="rounded-full bg-warn/15 px-1.5 py-0.5 text-[10px] font-semibold text-warn">
                       ↑ en aumento
                     </span>
                   )}
                 </span>
-                <span className="font-semibold tabular-nums">{eur(c.amount)}</span>
+                <span className="font-mono font-semibold tabular-nums">{eur(c.amount)}</span>
               </div>
-              <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
+              <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-cream">
                 <div
-                  className={`h-full rounded-full ${c.fastestGrowing ? "bg-amber-400" : "bg-gray-300"}`}
+                  className={`h-full rounded-full ${c.fastestGrowing ? "bg-warn" : "bg-steel"}`}
                   style={{ width: `${(c.amount / max) * 100}%` }}
                 />
               </div>

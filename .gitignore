@@ -25,3 +25,4 @@ next-env.d.ts
 
 # local PGlite database (Phase 1 dev persistence)
 /.pglite
+/.pglite-preview

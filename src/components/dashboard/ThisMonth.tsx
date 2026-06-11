@@ -7,18 +7,18 @@ export function ThisMonth({ data }: { data: DashboardData }) {
   const onTarget = thisMonth.savingsRate >= savingsRateTarget;
 
   return (
-    <Card title="Este mes">
+    <Card title="Este mes" className="col-span-2">
       <div className="flex items-baseline justify-between">
-        <span className="text-gray-600">Tasa de ahorro</span>
+        <span className="text-ink/60">Tasa de ahorro</span>
         <span
-          className={`text-2xl font-bold tabular-nums ${
-            thisMonth.savingsRate < 0 ? "text-red-600" : onTarget ? "text-emerald-600" : "text-gray-900"
+          className={`font-mono text-2xl font-bold tabular-nums ${
+            thisMonth.savingsRate < 0 ? "text-danger" : onTarget ? "text-success" : "text-ink"
           }`}
         >
           {pct(thisMonth.savingsRate)}
         </span>
       </div>
-      <p className="mt-1 text-xs text-gray-500">
+      <p className="mt-1 text-xs text-ink/40">
         Objetivo: {pct(savingsRateTarget)} {onTarget ? "· ¡conseguido!" : ""}
       </p>
 
@@ -33,9 +33,9 @@ export function ThisMonth({ data }: { data: DashboardData }) {
 
 function Metric({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
-    <div className="rounded-xl bg-gray-50 p-3">
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className={`text-sm font-semibold ${highlight ? "text-emerald-600" : "text-gray-900"}`}>
+    <div className="rounded-2xl bg-cream p-3">
+      <p className="text-xs text-ink/50">{label}</p>
+      <p className={`font-mono text-sm font-semibold ${highlight ? "text-success" : "text-ink"}`}>
         {value}
       </p>
     </div>

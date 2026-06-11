@@ -26,16 +26,18 @@ export function NetWorthChart({ series }: { series: NetWorthPoint[] }) {
   const data = months ? series.slice(-months) : series;
 
   return (
-    <Card>
+    <Card className="col-span-2">
       <div className="mb-3 flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-gray-500">Patrimonio neto</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-wide text-ink/50">
+          Patrimonio neto
+        </h2>
         <div className="flex gap-1">
           {RANGES.map((r) => (
             <button
               key={r.key}
               onClick={() => setRange(r.key)}
               className={`rounded-lg px-2.5 py-1 text-xs font-medium ${
-                range === r.key ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-600"
+                range === r.key ? "bg-ink text-white" : "bg-cream text-ink/60"
               }`}
             >
               {r.label}
@@ -64,7 +66,7 @@ export function NetWorthChart({ series }: { series: NetWorthPoint[] }) {
             <Line
               type="monotone"
               dataKey="netWorth"
-              stroke="#059669"
+              stroke="#5E82A6"
               strokeWidth={2.5}
               dot={false}
             />

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    background-color: theme("colors.surface");
+    color: theme("colors.ink");
+  }
+  /* Visible focus for keyboard nav (Bento accessibility baseline, WCAG 2.2 AA). */
+  *:focus-visible {
+    outline: 2px solid theme("colors.steel.deep");
+    outline-offset: 2px;
+  }
+  /* Tabular figures everywhere numbers matter. */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+}

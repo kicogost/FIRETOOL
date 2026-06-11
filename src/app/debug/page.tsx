@@ -96,8 +96,8 @@ function fechaFire(r: ReturnType<typeof projectedFireDate>): string {
 
 function Fila({ etiqueta, valor }: { etiqueta: string; valor: string }) {
   return (
-    <div className="flex items-baseline justify-between border-b border-gray-100 py-2">
-      <span className="text-gray-600">{etiqueta}</span>
+    <div className="flex items-baseline justify-between border-b border-cream-deep py-2">
+      <span className="text-ink/60">{etiqueta}</span>
       <span className="font-mono font-semibold">{valor}</span>
     </div>
   );
@@ -115,7 +115,7 @@ export default function DebugPage() {
   return (
     <main className="mx-auto max-w-2xl px-6 py-12">
       <h1 className="text-2xl font-bold">Diagnóstico del motor FIRE</h1>
-      <p className="mt-2 text-sm text-gray-500">
+      <p className="mt-2 text-sm text-ink/50">
         Datos de ejemplo en memoria. Sin base de datos. Fase 1.
       </p>
 

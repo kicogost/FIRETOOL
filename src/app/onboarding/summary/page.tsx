@@ -16,8 +16,8 @@ export default async function SummaryPage() {
   if (!data) {
     return (
       <main className="mx-auto max-w-md px-5 py-16 text-center">
-        <p className="text-gray-600">No hay datos. Vuelve a empezar.</p>
-        <Link href="/onboarding" className="mt-4 inline-block font-semibold text-emerald-700">
+        <p className="text-ink/60">No hay datos. Vuelve a empezar.</p>
+        <Link href="/onboarding" className="mt-4 inline-block font-semibold text-success">
           Ir al cuestionario
         </Link>
       </main>
@@ -35,7 +35,7 @@ export default async function SummaryPage() {
 
   return (
     <main className="mx-auto max-w-md px-5 py-10">
-      <p className="text-sm font-medium text-emerald-700">Tu punto de partida</p>
+      <p className="text-sm font-medium text-success">Tu punto de partida</p>
       <h1 className="mt-1 text-3xl font-bold leading-snug">
         Hola {data.profile.name}, esto es lo que sabemos hoy.
       </h1>
@@ -47,12 +47,12 @@ export default async function SummaryPage() {
           sub={`${pct(data.progress)} de tu meta`} />
         <Stat label="Ahorro mensual estimado" value={`${eur(surplus)}/mes`} />
 
-        <div className="rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 p-6 text-white">
-          <p className="text-sm text-emerald-100">Si inviertes tu ahorro cada mes…</p>
+        <div className="rounded-tile bg-peach p-6 text-ink shadow-tile">
+          <p className="text-sm text-ink/60">Si inviertes tu ahorro cada mes…</p>
           {projection.onTrack && projection.date ? (
             <>
-              <p className="mt-1 text-2xl font-bold">{formatDate(projection.date)}</p>
-              <p className="text-sm text-emerald-100">
+              <p className="mt-1 font-mono text-2xl font-bold">{formatDate(projection.date)}</p>
+              <p className="text-sm text-ink/60">
                 serás libre {fireDatePhrase(projection)}
               </p>
             </>
@@ -66,11 +66,11 @@ export default async function SummaryPage() {
 
       <Link
         href="/"
-        className="mt-8 block rounded-xl bg-gray-900 py-3 text-center font-semibold text-white"
+        className="mt-8 block rounded-xl bg-ink py-3 text-center font-semibold text-white"
       >
         Ir a mi panel
       </Link>
-      <p className="mt-3 text-center text-xs text-gray-400">
+      <p className="mt-3 text-center text-xs text-ink/40">
         Esto es educación financiera, no asesoramiento.
       </p>
     </main>
@@ -79,10 +79,10 @@ export default async function SummaryPage() {
 
 function Stat({ label, value, sub }: { label: string; value: string; sub?: string }) {
   return (
-    <div className="rounded-2xl border border-gray-200 p-5">
-      <p className="text-sm text-gray-500">{label}</p>
-      <p className="text-2xl font-bold tabular-nums">{value}</p>
-      {sub && <p className="text-sm text-gray-400">{sub}</p>}
+    <div className="rounded-tile border border-cream-deep bg-white p-5 shadow-tile-sm">
+      <p className="text-sm text-ink/50">{label}</p>
+      <p className="font-mono text-2xl font-bold tabular-nums">{value}</p>
+      {sub && <p className="text-sm text-ink/40">{sub}</p>}
     </div>
   );
 }

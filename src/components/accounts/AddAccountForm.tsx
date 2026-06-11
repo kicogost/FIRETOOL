@@ -34,7 +34,7 @@ export function AddAccountForm() {
     return (
       <button
         onClick={() => setOpen(true)}
-        className="w-full rounded-xl border-2 border-dashed border-gray-300 py-3 text-sm font-semibold text-gray-500"
+        className="w-full rounded-xl border-2 border-dashed border-cream-deep py-3 text-sm font-semibold text-ink/50"
       >
         + Añadir cuenta
       </button>
@@ -42,25 +42,25 @@ export function AddAccountForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-gray-200 p-5">
+    <form onSubmit={handleSubmit} className="space-y-4 rounded-2xl border border-cream-deep p-5">
       <label className="block">
-        <span className="text-sm text-gray-600">Nombre</span>
+        <span className="text-sm text-ink/60">Nombre</span>
         <input
           name="name"
           required
           autoFocus
           placeholder="p. ej. Broker indexado"
-          className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2"
+          className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
         />
       </label>
 
       <label className="block">
-        <span className="text-sm text-gray-600">Tipo</span>
+        <span className="text-sm text-ink/60">Tipo</span>
         <select
           name="type"
           value={type}
           onChange={(e) => setType(e.target.value as AccountType)}
-          className="mt-1 w-full rounded-xl border border-gray-300 bg-white px-3 py-2"
+          className="mt-1 w-full rounded-xl border border-cream-deep bg-white px-3 py-2"
         >
           {TYPES.map((t) => (
             <option key={t} value={t}>
@@ -71,14 +71,14 @@ export function AddAccountForm() {
       </label>
 
       <label className="block">
-        <span className="text-sm text-gray-600">Saldo actual (€)</span>
+        <span className="text-sm text-ink/60">Saldo actual (€)</span>
         <input
           name="initialBalance"
           type="number"
           step="0.01"
           min="0"
           required
-          className="mt-1 w-full rounded-xl border border-gray-300 px-3 py-2"
+          className="mt-1 w-full rounded-xl border border-cream-deep px-3 py-2"
         />
       </label>
 
@@ -91,7 +91,7 @@ export function AddAccountForm() {
           key={type}
           className="h-4 w-4"
         />
-        <span className="text-sm text-gray-600">Cuenta de inversión (cuenta para FIRE)</span>
+        <span className="text-sm text-ink/60">Cuenta de inversión (cuenta para FIRE)</span>
       </label>
 
       {error && <p className="text-sm text-red-600">{error}</p>}
@@ -100,14 +100,14 @@ export function AddAccountForm() {
         <button
           type="submit"
           disabled={pending}
-          className="flex-1 rounded-xl bg-emerald-600 py-2.5 font-semibold text-white disabled:opacity-50"
+          className="flex-1 rounded-xl bg-success py-2.5 font-semibold text-white disabled:opacity-50"
         >
           {pending ? "Guardando…" : "Guardar"}
         </button>
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="rounded-xl bg-gray-100 px-4 py-2.5 font-semibold text-gray-600"
+          className="rounded-xl bg-cream px-4 py-2.5 font-semibold text-ink/60"
         >
           Cancelar
         </button>

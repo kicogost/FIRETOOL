@@ -90,9 +90,9 @@ export function OnboardingWizard() {
   return (
     <main className="mx-auto flex min-h-screen max-w-md flex-col px-5 py-6">
       {/* Progress */}
-      <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
+      <div className="mb-8 h-1.5 w-full overflow-hidden rounded-full bg-cream">
         <div
-          className="h-full rounded-full bg-emerald-600 transition-[width] duration-300"
+          className="h-full rounded-full bg-success transition-[width] duration-300"
           style={{ width: `${((step + 1) / TOTAL_STEPS) * 100}%` }}
         />
       </div>
@@ -224,7 +224,7 @@ export function OnboardingWizard() {
             <button
               onClick={submit}
               disabled={pending || !d.rewardStyle}
-              className="mt-6 w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white disabled:opacity-50"
+              className="mt-6 w-full rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
             >
               {pending ? "Calculando tu punto de partida…" : "Ver mi punto de partida"}
             </button>
@@ -242,7 +242,7 @@ function Question({ title, hint, children }: { title: string; hint?: string; chi
   return (
     <div>
       <h1 className="text-2xl font-bold leading-snug">{title}</h1>
-      {hint && <p className="mt-2 text-sm text-gray-500">{hint}</p>}
+      {hint && <p className="mt-2 text-sm text-ink/50">{hint}</p>}
       <div className="mt-6">{children}</div>
     </div>
   );
@@ -265,7 +265,7 @@ function TextInput({
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder}
       autoFocus={autoFocus}
-      className="w-full rounded-xl border border-gray-300 px-4 py-3 text-lg"
+      className="w-full rounded-xl border border-cream-deep px-4 py-3 text-lg"
     />
   );
 }
@@ -293,9 +293,9 @@ function NumberInput({
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         autoFocus={autoFocus}
-        className="w-full rounded-xl border border-gray-300 px-4 py-3 text-lg"
+        className="w-full rounded-xl border border-cream-deep px-4 py-3 text-lg"
       />
-      {suffix && <span className="text-gray-400">{suffix}</span>}
+      {suffix && <span className="text-ink/40">{suffix}</span>}
     </div>
   );
 }
@@ -303,7 +303,7 @@ function NumberInput({
 function MoneyRow({ label, value, onChange }: { label: string; value: string; onChange: (v: string) => void }) {
   return (
     <label className="flex items-center justify-between gap-3">
-      <span className="text-sm text-gray-700">{label}</span>
+      <span className="text-sm text-ink/70">{label}</span>
       <div className="flex items-center gap-1">
         <input
           type="number"
@@ -312,9 +312,9 @@ function MoneyRow({ label, value, onChange }: { label: string; value: string; on
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="0"
-          className="w-28 rounded-xl border border-gray-300 px-3 py-2 text-right"
+          className="w-28 rounded-xl border border-cream-deep px-3 py-2 text-right"
         />
-        <span className="text-gray-400">€</span>
+        <span className="text-ink/40">€</span>
       </div>
     </label>
   );
@@ -336,11 +336,11 @@ function Choices({
           key={o.value}
           onClick={() => onPick(o.value)}
           className={`w-full rounded-xl border-2 px-4 py-3 text-left ${
-            value === o.value ? "border-emerald-600 bg-emerald-50" : "border-gray-200"
+            value === o.value ? "border-success bg-peach/50" : "border-cream-deep"
           }`}
         >
           <span className="font-semibold">{o.label}</span>
-          {o.hint && <span className="block text-sm text-gray-500">{o.hint}</span>}
+          {o.hint && <span className="block text-sm text-ink/50">{o.hint}</span>}
         </button>
       ))}
     </div>
@@ -351,14 +351,14 @@ function Continue({ onClick, disabled, onBack }: { onClick: () => void; disabled
   return (
     <div className="mt-6 flex gap-2">
       {onBack && (
-        <button onClick={onBack} className="rounded-xl bg-gray-100 px-4 py-3 font-semibold text-gray-600">
+        <button onClick={onBack} className="rounded-xl bg-cream px-4 py-3 font-semibold text-ink/60">
           Atrás
         </button>
       )}
       <button
         onClick={onClick}
         disabled={disabled}
-        className="flex-1 rounded-xl bg-emerald-600 py-3 font-semibold text-white disabled:opacity-50"
+        className="flex-1 rounded-xl bg-success py-3 font-semibold text-white disabled:opacity-50"
       >
         Continuar
       </button>
@@ -368,7 +368,7 @@ function Continue({ onClick, disabled, onBack }: { onClick: () => void; disabled
 
 function BackOnly({ onBack }: { onBack: () => void }) {
   return (
-    <button onClick={onBack} className="mt-4 w-full py-2 text-sm font-medium text-gray-400">
+    <button onClick={onBack} className="mt-4 w-full py-2 text-sm font-medium text-ink/40">
       Atrás
     </button>
   );

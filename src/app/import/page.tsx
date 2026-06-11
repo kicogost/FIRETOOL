@@ -8,7 +8,7 @@ export default function ImportPage() {
     <main className="mx-auto max-w-md px-5 pb-16 pt-2">
       <Nav active="accounts" />
       <h1 className="mt-3 text-xl font-bold">Importar movimientos</h1>
-      <p className="text-sm text-gray-500">
+      <p className="text-sm text-ink/50">
         Trae tu historial desde un CSV (por ejemplo, exportado de tu banco y adaptado a estas
         columnas).
       </p>
